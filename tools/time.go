@@ -58,7 +58,7 @@ func (tf *TF) initFormatter() {
 		tf.timeFormatter = fmt.Sprintf("15%s04%s05%s", tf.H, tf.Mn, tf.S)
 	}
 	if tf.datetimeFormatter == "" {
-		tf.datetimeFormatter = fmt.Sprintf("2006%s01%s02%s%s15%s04%s05%s", tf.Y, tf.M, tf.D, tf.DT, tf.H, tf.M, tf.S)
+		tf.datetimeFormatter = fmt.Sprintf("2006%s01%s02%s%s15%s04%s05%s", tf.Y, tf.M, tf.D, tf.DT, tf.H, tf.Mn, tf.S)
 	}
 }
 
