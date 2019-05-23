@@ -102,6 +102,10 @@ func (o *HTTPContext) ParamInForm(name string) string {
 
 //GetSeesion 获取 session
 func (o *HTTPContext) GetSeesion() session.Session {
+	if session.AppSession == nil {
+		panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession( ... ) in main package's init func"))
+	}
+
 	ss := session.AppSession.SessionStart(o.Writer, o.Request)
 
 	return ss
