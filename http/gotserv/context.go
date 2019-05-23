@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
+	"xval.cn/got/http/session"
 )
 
 //HTTPContext http 请求信息定义
@@ -97,4 +98,10 @@ func (o *HTTPContext) NamedParamInURL(name string) string {
 //ParamInForm 获取 form 中提交的参数
 func (o *HTTPContext) ParamInForm(name string) string {
 	return o.Request.PostFormValue(name)
+}
+
+//GetSeesion 获取 session
+func (o *HTTPContext) GetSeesion() session.Session {
+
+	return nil
 }
