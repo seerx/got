@@ -22,6 +22,7 @@ type Manager struct {
 //AppSession 全局 session 变量
 var AppSession *Manager
 
+//InitSession 初始化 Session
 func InitSession(provider string, cookieName string, expiredTime int64) {
 	AppSession, _ = GetManager(provider, cookieName, expiredTime)
 	go AppSession.SessionGC()
