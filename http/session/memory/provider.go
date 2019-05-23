@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"xval.cn/got/http/session"
+	"github.com/seerx/got/http/session"
 )
 
 func init() {

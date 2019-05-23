@@ -8,6 +8,7 @@ type Provider interface {
 	SessionGC(maxLifeTime int64)
 }
 
+// Session 提供者注册表
 var providers = make(map[string]Provider)
 
 // RegisterProvider 注册Session 寄存器

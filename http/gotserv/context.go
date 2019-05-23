@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
-	"xval.cn/got/http/session"
+	"github.com/seerx/got/http/session"
 )
 
 //HTTPContext http 请求信息定义
