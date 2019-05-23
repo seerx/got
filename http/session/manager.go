@@ -19,11 +19,12 @@ type Manager struct {
 	maxLifeTime int64
 }
 
-var session *Manager
+//AppSession 全局 session 变量
+var AppSession *Manager
 
 func initSession(provider string, cookieName string, expiredTime int64) {
-	session, _ = GetManager(provider, cookieName, expiredTime)
-	go session.SessionGC()
+	AppSession, _ = GetManager(provider, cookieName, expiredTime)
+	go AppSession.SessionGC()
 }
 
 // GetManager 获取 session 管理器

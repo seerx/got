@@ -102,6 +102,7 @@ func (o *HTTPContext) ParamInForm(name string) string {
 
 //GetSeesion 获取 session
 func (o *HTTPContext) GetSeesion() session.Session {
+	ss := session.AppSession.SessionStart(o.Writer, o.Request)
 
-	return nil
+	return ss
 }
