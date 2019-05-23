@@ -24,7 +24,10 @@ var AppSession *Manager
 
 //InitSession 初始化 Session
 func InitSession(provider string, cookieName string, expiredTime int64) {
-	AppSession, _ = GetManager(provider, cookieName, expiredTime)
+	AppSession, err := GetManager(provider, cookieName, expiredTime)
+	if err != nil {
+		panic(err)
+	}
 	go AppSession.SessionGC()
 }
 
