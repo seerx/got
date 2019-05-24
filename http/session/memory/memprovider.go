@@ -7,9 +7,12 @@ import (
 	"github.com/seerx/got/http/session"
 )
 
+//PROVIDER 提供者名称
+const PROVIDER = "memory"
+
 func init() {
 	provider := memProvider{sessionMap: make(map[string]memSession)}
-	session.RegisterProvider("memory", &provider)
+	session.RegisterProvider(PROVIDER, &provider)
 }
 
 //memoryProvider 内存session 提供者
