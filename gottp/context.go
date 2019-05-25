@@ -33,15 +33,15 @@ type PanicHandler func(path string, context *Context, err interface{}) bool
 // Handler web服务函数定义
 type Handler func(context *Context)
 
-//ResponseStatus json 请求返回的基础信息
-type ResponseStatus struct {
-	Status  int    `json:"status"`
-	Message string `json:"message"`
+//ResponseHeader json 请求返回的基础信息
+type ResponseHeader struct {
+	Code    int    `json:"code"`
+	Message string `json:"msg"`
 }
 
 //Response json 请求返回带有数据的信息
 type Response struct {
-	ResponseStatus
+	ResponseHeader
 	Data interface{} `json:"data"`
 }
 
@@ -87,18 +87,18 @@ func (o *Context) ReturnJSON(jsonObject interface{}) error {
 	return err
 }
 
-//ReturnStatus 返回状态
+//ReturnHeader 返回状态
 // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ReturnStatus(status int, formatter string, a ...interface{}) error {
+func (o *Context) ReturnHeader(code int, formatter string, a ...interface{}) error {
 	msg := fmt.Sprintf(formatter, a...)
-	return o.ReturnJSON(ResponseStatus{status, msg})
+	return o.ReturnJSON(ResponseHeader{code, msg})
 }
 
 //ReturnData 返回数据
 // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ReturnData(status int, message string, data interface{}) error {
+func (o *Context) ReturnData(code int, message string, data interface{}) error {
 	var res = Response{
-		ResponseStatus: ResponseStatus{Status: status, Message: message},
+		ResponseHeader: ResponseHeader{Code: code, Message: message},
 		Data:           data,
 	}
 
