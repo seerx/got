@@ -17,6 +17,7 @@ type Context struct {
 	params      httprouter.Params
 	queryValues url.Values
 	router      *Router
+	session     *session.Session
 }
 
 // Intercptor 拦截器定义
@@ -132,12 +133,13 @@ func (o *Context) ParamInForm(name string) string {
 }
 
 //GetSeesion 获取 session
-func (o *Context) GetSeesion() session.Session {
-	if session.AppSession == nil {
-		panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession( ... ) in main package's init func"))
+func (o *Context) GetSeesion() *session.Session {
+	if o.session == nil {
+		if session.AppSession == nil {
+			panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession( ... ) in main package's init func"))
+		}
+		ss := session.AppSession.SessionStart(o.Writer, o.Request)
+		o.session = &ss
 	}
-
-	ss := session.AppSession.SessionStart(o.Writer, o.Request)
-
-	return ss
+	return o.session
 }
