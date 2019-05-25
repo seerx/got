@@ -3,13 +3,13 @@ package got
 import (
 	"fmt"
 
-	"github.com/seerx/got/http/gotserv"
+	"github.com/seerx/got/gottp"
 )
 
-var def *gotserv.Router
+var def *gottp.Router
 
 func init() {
-	def = gotserv.NewRouter()
+	def = gottp.NewRouter()
 }
 
 func checkInit() {
@@ -19,37 +19,37 @@ func checkInit() {
 }
 
 //DefaultRouter 获取默认的 Router
-func DefaultRouter() *gotserv.Router {
+func DefaultRouter() *gottp.Router {
 	checkInit()
 	return def
 }
 
 //GET 在默认的 defaultConetx 上注册 GET 请求
-func GET(path string, handler gotserv.Handler) {
+func GET(path string, handler gottp.Handler) {
 	checkInit()
 	def.GET(path, handler)
 }
 
 //POST 在默认的 defaultConetx 上注册 POST 请求
-func POST(path string, handler gotserv.Handler) {
+func POST(path string, handler gottp.Handler) {
 	checkInit()
 	def.POST(path, handler)
 }
 
 //HEAD 在默认的 defaultConetx 上注册 HEAD 请求
-func HEAD(path string, handler gotserv.Handler) {
+func HEAD(path string, handler gottp.Handler) {
 	checkInit()
 	def.HEAD(path, handler)
 }
 
 //PUT 在默认的 defaultConetx 上注册 PUT 请求
-func PUT(path string, handler gotserv.Handler) {
+func PUT(path string, handler gottp.Handler) {
 	checkInit()
 	def.PUT(path, handler)
 }
 
 //DELETE 在默认的 defaultConetx 上注册 DELETE 请求
-func DELETE(path string, handler gotserv.Handler) {
+func DELETE(path string, handler gottp.Handler) {
 	checkInit()
 	def.DELETE(path, handler)
 }

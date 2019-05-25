@@ -1,4 +1,4 @@
-package gotserv
+package gottp
 
 import (
 	"net/http"
@@ -14,19 +14,6 @@ type Router struct {
 	afterHandlers  []Intercptor
 	panicHandlers  []PanicHandler
 }
-
-// Intercptor 拦截器定义
-// 如果要不执行后续操作，直接调用 ctx.Return* 函数
-type Intercptor func(path string, ctx *HTTPContext)
-
-// PanicHandler 错误处理函数定义
-// return bool
-//			true	错误已经被处理，不再抛出
-//			false	错误未被处理，抛出
-type PanicHandler func(path string, context *HTTPContext, err interface{}) bool
-
-// Handler web服务函数定义
-type Handler func(context *HTTPContext)
 
 //Filter 过滤器
 // func Filter(h Handler) RequestHandler {
@@ -65,7 +52,7 @@ func (rc *Router) AddPanicHandler(handler PanicHandler) {
 	rc.panicHandlers = append(rc.panicHandlers, handler)
 }
 
-func (rc *Router) forJumpout(path string, ctx *HTTPContext) {
+func (rc *Router) forJumpout(path string, ctx *Context) {
 	if err := recover(); err != nil {
 		if _, ok := err.(JumpoutError); !ok {
 			// 不是 JumpoutError 错误, 非正常结束
@@ -92,7 +79,7 @@ func (rc *Router) forJumpout(path string, ctx *HTTPContext) {
 	}
 }
 
-func (rc *Router) executeBefore(path string, ctx *HTTPContext) {
+func (rc *Router) executeBefore(path string, ctx *Context) {
 	for _, i := range rc.beforeHandlers {
 		i(path, ctx)
 	}
@@ -101,7 +88,7 @@ func (rc *Router) executeBefore(path string, ctx *HTTPContext) {
 //GET 注册 GET 请求
 func (rc *Router) GET(path string, handler Handler) {
 	rc.router.GET(path, func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		var o = HTTPContext{
+		var o = Context{
 			Request: r,
 			Writer:  w,
 			params:  params,
@@ -116,7 +103,7 @@ func (rc *Router) GET(path string, handler Handler) {
 //POST 注册 POST 请求
 func (rc *Router) POST(path string, handler Handler) {
 	rc.router.POST(path, func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		var o = HTTPContext{
+		var o = Context{
 			Request: r,
 			Writer:  w,
 			params:  params,
@@ -131,7 +118,7 @@ func (rc *Router) POST(path string, handler Handler) {
 //PUT 注册 PUT 请求
 func (rc *Router) PUT(path string, handler Handler) {
 	rc.router.PUT(path, func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		var o = HTTPContext{
+		var o = Context{
 			Request: r,
 			Writer:  w,
 			params:  params,
@@ -147,7 +134,7 @@ func (rc *Router) PUT(path string, handler Handler) {
 func (rc *Router) DELETE(path string, handler Handler) {
 	rc.router.DELETE(path, func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 
-		var o = HTTPContext{
+		var o = Context{
 			Request: r,
 			Writer:  w,
 			params:  params,
@@ -162,7 +149,7 @@ func (rc *Router) DELETE(path string, handler Handler) {
 //HEAD 注册 HEAD 请求
 func (rc *Router) HEAD(path string, handler Handler) {
 	rc.router.HEAD(path, func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		var o = HTTPContext{
+		var o = Context{
 			Request: r,
 			Writer:  w,
 			params:  params,

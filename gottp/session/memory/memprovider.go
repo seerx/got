@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seerx/got/http/session"
+	"github.com/seerx/got/gottp/session"
 )
 
 //PROVIDER 提供者名称
