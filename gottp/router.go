@@ -42,7 +42,8 @@ func (rc *Router) AddBeforeInterceptor(interceptor Intercptor) {
 	rc.beforeHandlers = append(rc.beforeHandlers, interceptor)
 }
 
-//AddAfterInterceptor 添加执行后拦截器
+// AddAfterInterceptor 添加执行后拦截器，
+// 请勿在 AfterInterceptor 函数中调用 ctx.ResponseHeaderSet 和 ctx.ResponseHeaderAdd 函数
 func (rc *Router) AddAfterInterceptor(interceptor Intercptor) {
 	rc.afterHandlers = append(rc.afterHandlers, interceptor)
 }

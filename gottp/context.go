@@ -34,16 +34,16 @@ type PanicHandler func(path string, context *Context, err interface{}) bool
 type Handler func(context *Context)
 
 //ResponseHeader json 请求返回的基础信息
-type ResponseHeader struct {
-	Code    int    `json:"code"`
-	Message string `json:"msg"`
-}
+// type ResponseHeader struct {
+// 	Code    int    `json:"code"`
+// 	Message string `json:"msg"`
+// }
 
 //Response json 请求返回带有数据的信息
-type Response struct {
-	ResponseHeader
-	Data interface{} `json:"data"`
-}
+// type Response struct {
+// 	ResponseHeader
+// 	Data interface{} `json:"data"`
+// }
 
 //JumpoutError 跳过后续代码用到的错误定义
 type JumpoutError struct {
@@ -69,41 +69,63 @@ func (o *Context) DecodeRequestBodyAsJSON(v interface{}) error {
 	return json.NewDecoder(o.Request.Body).Decode(v)
 }
 
-//ReturnJSON 返回 JSON 对象
+//ResponseText 返回文本
+func (o *Context) ResponseText(text string) {
+	o.ResponseTextf(200, text)
+}
+
+//ResponseTextStatus 返回数据并指定状态
+func (o *Context) ResponseTextStatus(status int, text string) {
+	o.ResponseTextf(status, text)
+}
+
+//ResponseTextf 返回 string
+func (o *Context) ResponseTextf(status int, formatter string, a ...interface{}) {
+	msg := fmt.Sprintf(formatter, a...)
+	data := []byte(msg)
+	o.ResponseHeaderSet("Content-Type", "text/plain; charset=utf-8")
+	o.Writer.WriteHeader(status)
+	o.Writer.Write(data)
+	panic(JumpoutError{"jump-out"})
+}
+
+//ResponseJSONStatus 返回 JSON 对象
 // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ReturnJSON(jsonObject interface{}) error {
+func (o *Context) ResponseJSONStatus(status int, jsonObject interface{}) error {
 	data, err := json.Marshal(jsonObject)
 	if err == nil {
-		// o.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-		// o.Writer.Header().Set("Content-Length", strconv.Itoa(len(data)))
-		// // if o.router.AllowCross {
-		// o.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		// }
-		o.Writer.Write(data)
+		o.ResponseHeaderSet("Content-Type", "application/json; charset=utf-8")
+		o.Writer.WriteHeader(status)
 
+		o.Writer.Write(data)
 		panic(JumpoutError{"jump-out"})
 	}
 
 	return err
 }
 
+//ResponseJSON 返回 json 数据
+func (o *Context) ResponseJSON(jsonObject interface{}) error {
+	return o.ResponseJSONStatus(200, jsonObject)
+}
+
 //ReturnHeader 返回状态
 // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ReturnHeader(code int, formatter string, a ...interface{}) error {
-	msg := fmt.Sprintf(formatter, a...)
-	return o.ReturnJSON(ResponseHeader{code, msg})
-}
+// func (o *Context) ReturnHeader(code int, formatter string, a ...interface{}) error {
+// 	msg := fmt.Sprintf(formatter, a...)
+// 	return o.ReturnJSON(ResponseHeader{code, msg})
+// }
 
-//ReturnData 返回数据
-// 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ReturnData(code int, message string, data interface{}) error {
-	var res = Response{
-		ResponseHeader: ResponseHeader{Code: code, Message: message},
-		Data:           data,
-	}
+// //ReturnData 返回数据
+// // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
+// func (o *Context) ReturnData(code int, message string, data interface{}) error {
+// 	var res = Response{
+// 		ResponseHeader: ResponseHeader{Code: code, Message: message},
+// 		Data:           data,
+// 	}
 
-	return o.ReturnJSON(res)
-}
+// 	return o.ReturnJSON(res)
+// }
 
 //ReturnFile 返回文件，执行该函数不会跳过后面的代码
 func (o *Context) ReturnFile(filePath string) {
