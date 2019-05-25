@@ -133,7 +133,7 @@ func (o *Context) ParamInForm(name string) string {
 }
 
 //GetSeesion 获取 session
-func (o *Context) GetSeesion() *session.Session {
+func (o *Context) GetSeesion() session.Session {
 	if o.session == nil {
 		if session.AppSession == nil {
 			panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession( ... ) in main package's init func"))
@@ -141,5 +141,5 @@ func (o *Context) GetSeesion() *session.Session {
 		ss := session.AppSession.SessionStart(o.Writer, o.Request)
 		o.session = &ss
 	}
-	return o.session
+	return *o.session
 }
