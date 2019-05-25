@@ -1,4 +1,4 @@
-package tools
+package got
 
 import (
 	"encoding/json"
