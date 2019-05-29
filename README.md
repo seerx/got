@@ -56,7 +56,7 @@ go run main.go
 首先在 mann.go 的 init() 函数中添加
 <pre>
 cache := cache.NewCacheManager(memcache.PROVIDER, 600)
-session.Init("go-session", cache)
+gottp.Init("go-session", cache)
 </pre>
 
 在 handlers 中即可以使用 ctx.GetSession() 来获取和使用 session 了
