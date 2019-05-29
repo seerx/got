@@ -156,6 +156,10 @@ func (o *Context) ParamInForm(name string) string {
 }
 
 //GetSeesion 获取 session
+// 使用 session 的话，需要在 main 包中初始化
+// 例：
+// 	cache := cache.NewCacheManager(memcache.PROVIDER, 600)
+// 	session.Init("go-session", cache)
 func (o *Context) GetSeesion() cache.Entity {
 	if o.session == nil {
 		if session.SSManager == nil {
