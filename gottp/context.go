@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/seerx/got/cache"
 	"github.com/seerx/got/gottp/session"
 )
 
@@ -17,7 +18,7 @@ type Context struct {
 	params      httprouter.Params
 	queryValues url.Values
 	router      *Router
-	session     *session.Session
+	session     cache.Entity
 }
 
 // Intercptor 拦截器定义
@@ -155,13 +156,14 @@ func (o *Context) ParamInForm(name string) string {
 }
 
 //GetSeesion 获取 session
-func (o *Context) GetSeesion() session.Session {
+func (o *Context) GetSeesion() cache.Entity {
 	if o.session == nil {
-		if session.AppSession == nil {
-			panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession( ... ) in main package's init func"))
+		if session.SSManager == nil {
+			panic(fmt.Errorf("You need init session manager before use it, Call session.Init in main package's init func"))
 		}
-		ss := session.AppSession.SessionStart(o.Writer, o.Request)
-		o.session = &ss
+
+		entity := session.SSManager.SessionStart(o.Writer, o.Request)
+		o.session = entity
 	}
-	return *o.session
+	return o.session
 }
