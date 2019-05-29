@@ -13,24 +13,26 @@ Web Server 一些操作的封装，简化开发，增强功能
 package main
 
 import (
+	"log"
 	"net/http"
-	"github.com/seerx/got" 
-	"xval.cn/pictag/model"
+
+	"github.com/seerx/got"
+	"github.com/seerx/got/gottp"
 )
 
-var svr *http.Server 
+var svr *http.Server
 
 func init() {
 	svr = &http.Server{Addr: ":8099"}
-  
-  got.POST("/hello", hello)
+
+	got.GET("/hello", hello)
 }
 
 func hello(ctx *gottp.Context) {
 	ctx.ResponseText("Hello Golang!")
 }
 
-func main() { 
+func main() {
 	def := got.DefaultRouter()
 	svr.Handler = def.GetHTTPRouter()
 	log.Fatal(svr.ListenAndServe())
