@@ -8,7 +8,6 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/seerx/got/cache"
-	"github.com/seerx/got/gottp/session"
 )
 
 //Context http 请求信息定义
@@ -162,11 +161,11 @@ func (o *Context) ParamInForm(name string) string {
 // 	session.Init("go-session", cache)
 func (o *Context) GetSeesion() cache.Entity {
 	if o.session == nil {
-		if session.SSManager == nil {
+		if SSManager == nil {
 			panic(fmt.Errorf("You need init session manager before use it, Call session.Init in main package's init func"))
 		}
 
-		entity := session.SSManager.SessionStart(o.Writer, o.Request)
+		entity := SSManager.SessionStart(o.Writer, o.Request)
 		o.session = entity
 	}
 	return o.session

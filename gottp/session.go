@@ -1,4 +1,4 @@
-package session
+package gottp
 
 import (
 	"crypto/rand"
