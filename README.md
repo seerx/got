@@ -7,6 +7,11 @@ Web Server 一些操作的封装，简化开发，增强功能
 
 增加 session 功能
 
+# 获取包
+<pre>
+go get github.com/seerx/got
+</pre>
+
 # web server
 ## 简单实例 main.go
 <pre>
