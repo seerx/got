@@ -9,14 +9,13 @@ import (
 	"time"
 
 	"github.com/seerx/got/cache"
-	"github.com/seerx/got/cache/memcache"
 )
 
 // Manager 会话对象
 type Manager struct {
-	cookieName  string
-	cache       *cache.Manager
-	maxLifeTime int
+	cookieName string
+	cache      *cache.Manager
+	// maxLifeTime int
 }
 
 // SSManager 全局变量
@@ -24,12 +23,12 @@ var SSManager *Manager
 
 // Init 初始化
 // 要使用 Session 功能必须在程序初始化时调用此函数
-func Init(cookieName string, expiredTime int64) {
+func Init(cookieName string, cache *cache.Manager) {
 	// memcache.RegisterProvider()
 	SSManager = &Manager{
-		cookieName:  cookieName,
-		maxLifeTime: int(expiredTime),
-		cache:       cache.NewCacheManager(memcache.PROVIDER, expiredTime),
+		cookieName: cookieName,
+		// maxLifeTime: int(expiredTime),
+		cache: cache,
 	}
 }
 
@@ -69,7 +68,7 @@ func (ss *Manager) SessionStart(w http.ResponseWriter, r *http.Request) cache.En
 		Value:    url.QueryEscape(entity.Name()),
 		Path:     "/",
 		HttpOnly: true,
-		MaxAge:   ss.maxLifeTime,
+		MaxAge:   int(ss.cache.MaxLifeTime),
 	}
 	http.SetCookie(w, &newCookie)
 

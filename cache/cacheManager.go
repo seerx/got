@@ -10,7 +10,7 @@ import (
 type Manager struct {
 	lock        sync.RWMutex
 	provider    Provider
-	maxLifeTime int64
+	MaxLifeTime int64
 	gcDuration  time.Duration
 }
 
@@ -38,7 +38,7 @@ func NewCacheManager(provider string, expiredTime int64) *Manager {
 
 	manager := &Manager{
 		gcDuration:  gcd,
-		maxLifeTime: expiredTime,
+		MaxLifeTime: expiredTime,
 		provider:    prv,
 	}
 
@@ -51,7 +51,7 @@ func NewCacheManager(provider string, expiredTime int64) *Manager {
 func (m *Manager) GC() {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	m.provider.CacheGC(m.maxLifeTime)
+	m.provider.CacheGC(m.MaxLifeTime)
 
 	time.AfterFunc(m.gcDuration, func() {
 		m.GC()
