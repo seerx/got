@@ -14,16 +14,6 @@ type Manager struct {
 	gcDuration  time.Duration
 }
 
-//CacheManager 缓存管理
-var CacheManager *Manager
-
-// InitCacheManager 初始化缓存管理器
-// 不用自己维护，使用全局的 CacheManager
-// @param expiredTime 秒
-func InitCacheManager(provider string, expiredTime int64) {
-	CacheManager = NewCacheManager(provider, expiredTime)
-}
-
 // NewCacheManager 创建缓存管理器
 // 需要自行维护 Manager
 // @param expiredTime 秒
