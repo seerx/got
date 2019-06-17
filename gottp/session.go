@@ -23,7 +23,7 @@ var SSManager *Manager
 
 // Init 初始化
 // 要使用 Session 功能必须在程序初始化时调用此函数
-func Init(cookieName string, cache *cache.Manager) {
+func InitSession(cookieName string, cache *cache.Manager) {
 	// memcache.RegisterProvider()
 	SSManager = &Manager{
 		cookieName: cookieName,

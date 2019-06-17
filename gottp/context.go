@@ -66,7 +66,8 @@ func (o *Context) ResponseHeaderAdd(key, value string) {
 
 //DecodeRequestBodyAsJSON 把请求内容解析为 json
 func (o *Context) DecodeRequestBodyAsJSON(v interface{}) error {
-	return json.NewDecoder(o.Request.Body).Decode(v)
+	err := json.NewDecoder(o.Request.Body).Decode(v)
+	return err
 }
 
 //ResponseText 返回文本
@@ -158,11 +159,11 @@ func (o *Context) ParamInForm(name string) string {
 // 使用 session 的话，需要在 main 包中初始化
 // 例：
 // 	cache := cache.NewCacheManager(memcache.PROVIDER, 600)
-// 	session.Init("go-session", cache)
+// 	session.InitSeesion("go-session", cache)
 func (o *Context) GetSeesion() cache.Entity {
 	if o.session == nil {
 		if SSManager == nil {
-			panic(fmt.Errorf("You need init session manager before use it, Call session.Init in main package's init func"))
+			panic(fmt.Errorf("You need init session manager before use it, Call session.InitSession in main package's init func"))
 		}
 
 		entity := SSManager.SessionStart(o.Writer, o.Request)
