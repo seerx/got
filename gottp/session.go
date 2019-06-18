@@ -21,7 +21,7 @@ type Manager struct {
 // SSManager 全局变量
 var SSManager *Manager
 
-// Init 初始化
+// InitSession 初始化
 // 要使用 Session 功能必须在程序初始化时调用此函数
 func InitSession(cookieName string, cache *cache.Manager) {
 	// memcache.RegisterProvider()
