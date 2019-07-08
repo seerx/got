@@ -23,6 +23,7 @@ func ParseJSONFile(file string, v interface{}) error {
 func WriteJSONFile(file string, v interface{}) error {
 	infoStr, err := json.Marshal(v)
 	if err != nil {
+
 		return err
 	}
 	var infoData = []byte(infoStr)
