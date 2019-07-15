@@ -2,8 +2,11 @@ package got
 
 import (
 	"fmt"
+	"net/http"
 
+	"github.com/graphql-go/handler"
 	"github.com/seerx/got/gottp"
+	"github.com/seerx/gql"
 )
 
 var def *gottp.Router
@@ -52,4 +55,19 @@ func PUT(path string, handler gottp.Handler) {
 func DELETE(path string, handler gottp.Handler) {
 	checkInit()
 	def.DELETE(path, handler)
+}
+
+func gqlServe(context *gottp.Context, gqlHandler http.Handler) {
+	gqlHandler.ServeHTTP(context.Writer, context.Request)
+}
+
+// InitGraphQL 初始化 GraphQL
+func InitGraphQL(path string, cfg *handler.Config) {
+	var gqlHandler = gql.Get().NewHandler(cfg)
+	def.GET(path, func(context *gottp.Context) {
+		gqlServe(context, gqlHandler)
+	})
+	def.POST(path, func(context *gottp.Context) {
+		gqlServe(context, gqlHandler)
+	})
 }
