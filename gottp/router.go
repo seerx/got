@@ -9,6 +9,8 @@ import (
 //Router 路由定义
 // 对 httprouter.Router 包装
 type Router struct {
+	Debug          func(messsage string)
+	Error          func(err error)
 	router         *httprouter.Router
 	beforeHandlers []Intercptor
 	afterHandlers  []Intercptor
@@ -29,7 +31,11 @@ type Router struct {
 
 //NewRouter 创建新的路由
 func NewRouter() *Router {
-	return &Router{router: httprouter.New()}
+	return &Router{
+		Debug:  func(messsage string) {},
+		Error:  func(err error) {},
+		router: httprouter.New(),
+	}
 }
 
 //GetHTTPRouter 获取 http handler

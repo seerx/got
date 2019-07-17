@@ -27,6 +27,18 @@ func DefaultRouter() *gottp.Router {
 	return def
 }
 
+// DEBUG 设置 debug 函数
+func DEBUG(fn func(string)) {
+	checkInit()
+	def.Debug = fn
+}
+
+// ERROR 设置 错误信息 函数
+func ERROR(fn func(error)) {
+	checkInit()
+	def.Error = fn
+}
+
 //GET 在默认的 defaultConetx 上注册 GET 请求
 func GET(path string, handler gottp.Handler) {
 	checkInit()

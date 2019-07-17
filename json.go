@@ -21,12 +21,10 @@ func ParseJSONFile(file string, v interface{}) error {
 
 //WriteJSONFile 写入 json 文件
 func WriteJSONFile(file string, v interface{}) error {
-	infoStr, err := json.Marshal(v)
+	infoData, err := json.Marshal(v)
 	if err != nil {
-
 		return err
 	}
-	var infoData = []byte(infoStr)
 	err = ioutil.WriteFile(file, infoData, 0666)
 	return err
 }

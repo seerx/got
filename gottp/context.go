@@ -12,8 +12,9 @@ import (
 
 //Context http 请求信息定义
 type Context struct {
-	Writer      http.ResponseWriter
-	Request     *http.Request
+	Writer  http.ResponseWriter
+	Request *http.Request
+
 	params      httprouter.Params
 	queryValues url.Values
 	router      *Router
@@ -97,7 +98,7 @@ func (o *Context) ResponseTextSuccess() {
 
 //ResponseJSONStatus 返回 JSON 对象
 // 注意：如果该函数执行成功，则会跳过排在该函数后面的代码
-func (o *Context) ResponseJSONStatus(status int, jsonObject interface{}) error {
+func (o *Context) ResponseJSONStatus(status int, jsonObject interface{}) {
 	data, err := json.Marshal(jsonObject)
 	if err == nil {
 		o.ResponseHeaderSet("Content-Type", "application/json; charset=utf-8")
@@ -107,17 +108,17 @@ func (o *Context) ResponseJSONStatus(status int, jsonObject interface{}) error {
 		panic(JumpoutError{"jump-out"})
 	}
 
-	return err
+	o.router.Error(err)
 }
 
 //ResponseJSON 返回 json 数据
-func (o *Context) ResponseJSON(jsonObject interface{}) error {
-	return o.ResponseJSONStatus(200, jsonObject)
+func (o *Context) ResponseJSON(jsonObject interface{}) {
+	o.ResponseJSONStatus(200, jsonObject)
 }
 
 // ResponseJSONSuccess 返回成功，内容为空
-func (o *Context) ResponseJSONSuccess() error {
-	return o.ResponseJSONStatus(200, "")
+func (o *Context) ResponseJSONSuccess() {
+	o.ResponseJSONStatus(200, "")
 }
 
 //ReturnHeader 返回状态
