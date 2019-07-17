@@ -1,6 +1,7 @@
 package got
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"os"
@@ -25,6 +26,14 @@ func WriteJSONFile(file string, v interface{}) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(file, infoData, 0666)
+
+	var out bytes.Buffer
+	err = json.Indent(&out, infoData, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	// out.WriteTo(file)
+	err = ioutil.WriteFile(file, out.Bytes(), 0666)
 	return err
 }
