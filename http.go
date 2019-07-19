@@ -74,8 +74,8 @@ func gqlServe(context *gottp.Context, gqlHandler http.Handler) {
 }
 
 // InitGraphQL 初始化 GraphQL
-func InitGraphQL(path string, cfg *handler.Config) {
-	var gqlHandler = gql.Get().NewHandler(cfg)
+func InitGraphQL(g *gql.GQL, path string, cfg *handler.Config) {
+	var gqlHandler = g.NewHandler(cfg)
 	def.GET(path, func(context *gottp.Context) {
 		gqlServe(context, gqlHandler)
 	})
