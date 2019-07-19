@@ -26,9 +26,11 @@ type TF struct {
 	Mn string
 	S  string
 
-	dateFormatter     string
-	timeFormatter     string
-	datetimeFormatter string
+	dateFormatter                    string
+	timeFormatter                    string
+	timeWithMillisecondFormatter     string
+	datetimeFormatter                string
+	datetimeWithMillisecondFormatter string
 }
 
 //NewTimeFormatter 创建时间格式化对象
@@ -57,8 +59,14 @@ func (tf *TF) initFormatter() {
 	if tf.timeFormatter == "" {
 		tf.timeFormatter = fmt.Sprintf("15%s04%s05%s", tf.H, tf.Mn, tf.S)
 	}
+	if tf.timeWithMillisecondFormatter == "" {
+		tf.timeWithMillisecondFormatter = tf.timeFormatter + ".000"
+	}
 	if tf.datetimeFormatter == "" {
 		tf.datetimeFormatter = fmt.Sprintf("2006%s01%s02%s%s15%s04%s05%s", tf.Y, tf.M, tf.D, tf.DT, tf.H, tf.Mn, tf.S)
+	}
+	if tf.datetimeWithMillisecondFormatter == "" {
+		tf.datetimeWithMillisecondFormatter = tf.datetimeFormatter + ".000"
 	}
 }
 
@@ -78,4 +86,16 @@ func (tf *TF) FormatDateTime(time time.Time) string {
 func (tf *TF) FormatTime(time time.Time) string {
 	tf.initFormatter()
 	return time.Format(tf.timeFormatter)
+}
+
+//FormatDateTimeM 格式化时间，末尾带毫秒
+func (tf *TF) FormatDateTimeM(time time.Time) string {
+	tf.initFormatter()
+	return time.Format(tf.datetimeWithMillisecondFormatter)
+}
+
+//FormatTimeM 格式化时间，末尾带毫秒
+func (tf *TF) FormatTimeM(time time.Time) string {
+	tf.initFormatter()
+	return time.Format(tf.timeWithMillisecondFormatter)
 }
