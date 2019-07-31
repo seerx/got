@@ -8,7 +8,6 @@ import (
 
 //UUID 生成 uuid
 func UUID() string {
-	uid, _ := uuid.NewV4()
-	u := uuid.Must(uid, nil)
+	u := uuid.Must(uuid.NewV4(), nil)
 	return strings.Replace(u.String(), "-", "", -1)
 }
