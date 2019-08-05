@@ -51,10 +51,10 @@ func DirecotoryExists(path string) (bool, error) {
 	return false, err
 }
 
-// TrimAbsolutePath 计算真实路径，去掉 .. 之类的目录层次
-func TrimAbsolutePath(path string) string {
-	paths := strings.Split(path, "/")
-	return filepath.Join(append([]string{d.RootPath}, paths...)...)
+// JoinPath 计算真实路径，去掉 .. 之类的目录层次
+func JoinPath(basePaht string, relatePath string) string {
+	paths := strings.Split(relatePath, "/")
+	return filepath.Join(append([]string{basePaht}, paths...)...)
 }
 
 //MakeDirecotories 连续创建路径
