@@ -16,7 +16,7 @@ func MD5(val string) string {
 }
 
 // AESEncrypt AES 加密
-func AESEncrypt(src, k, n string) string {
+func AESEncrypt(src, k, n string) (string, error) {
 	// The key argument should be the AES key, either 16 or 32 bytes
 	// to select AES-128 or AES-256.
 	key := []byte(k)
@@ -24,23 +24,23 @@ func AESEncrypt(src, k, n string) string {
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
 	nonce, _ := hex.DecodeString(n)
 
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
 	ciphertext := aesgcm.Seal(nil, nonce, plaintext, nil)
 
-	return fmt.Sprintf("%x", ciphertext)
+	return fmt.Sprintf("%x", ciphertext), nil
 }
 
 // AESDecrypt AES 解密
-func AESDecrypt(src, k, n string) string {
+func AESDecrypt(src, k, n string) (string, error) {
 	// The key argument should be the AES key, either 16 or 32 bytes
 	// to select AES-128 or AES-256.
 	key := []byte(k)
@@ -50,18 +50,18 @@ func AESDecrypt(src, k, n string) string {
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
 	plaintext, err := aesgcm.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		panic(err.Error())
+		return "", err
 	}
 
-	return string(plaintext)
+	return string(plaintext), nil
 }
