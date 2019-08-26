@@ -99,3 +99,23 @@ func (tf *TF) FormatTimeM(time time.Time) string {
 	tf.initFormatter()
 	return time.Format(tf.timeWithMillisecondFormatter)
 }
+
+// GetDateTemplate 获取日期格式模板
+func (tf *TF) GetDateTemplate() string {
+	return tf.dateFormatter
+}
+
+// GetDatetimeTemplate 获取日期及时间格式模板
+func (tf *TF) GetDatetimeTemplate() string {
+	return tf.datetimeFormatter
+}
+
+// GetTimeTemplate 获取时间格式模板
+func (tf *TF) GetTimeTemplate() string {
+	return tf.timeFormatter
+}
+
+// GetDatetimeMTemplate 获取日期及时间(含毫秒)格式模板
+func (tf *TF) GetDatetimeMTemplate() string {
+	return tf.datetimeWithMillisecondFormatter
+}
