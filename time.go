@@ -100,22 +100,50 @@ func (tf *TF) FormatTimeM(time time.Time) string {
 	return time.Format(tf.timeWithMillisecondFormatter)
 }
 
+// ParseDate 解析日期
+func (tf *TF) ParseDate(date string) (time.Time, error) {
+	tf.initFormatter()
+	return time.Parse(tf.dateFormatter, date)
+}
+
+// ParseDatetime 解析日期及时间
+func (tf *TF) ParseDatetime(date string) (time.Time, error) {
+	tf.initFormatter()
+	return time.Parse(tf.datetimeFormatter, date)
+}
+
+// ParseTime 解析时间
+func (tf *TF) ParseTime(date string) (time.Time, error) {
+	tf.initFormatter()
+	return time.Parse(tf.timeFormatter, date)
+}
+
+// ParseDatetimeM 解析日期及时间（含毫秒）
+func (tf *TF) ParseDatetimeM(date string) (time.Time, error) {
+	tf.initFormatter()
+	return time.Parse(tf.datetimeWithMillisecondFormatter, date)
+}
+
 // GetDateTemplate 获取日期格式模板
 func (tf *TF) GetDateTemplate() string {
+	tf.initFormatter()
 	return tf.dateFormatter
 }
 
 // GetDatetimeTemplate 获取日期及时间格式模板
 func (tf *TF) GetDatetimeTemplate() string {
+	tf.initFormatter()
 	return tf.datetimeFormatter
 }
 
 // GetTimeTemplate 获取时间格式模板
 func (tf *TF) GetTimeTemplate() string {
+	tf.initFormatter()
 	return tf.timeFormatter
 }
 
 // GetDatetimeMTemplate 获取日期及时间(含毫秒)格式模板
 func (tf *TF) GetDatetimeMTemplate() string {
+	tf.initFormatter()
 	return tf.datetimeWithMillisecondFormatter
 }
