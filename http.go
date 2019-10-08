@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/graphql-go/handler"
+	"github.com/seerx/goql"
 	"github.com/seerx/got/gottp"
 	"github.com/seerx/gql"
 )
@@ -81,5 +82,16 @@ func InitGraphQL(g *gql.GQL, path string, cfg *handler.Config) {
 	})
 	def.POST(path, func(context *gottp.Context) {
 		gqlServe(context, gqlHandler)
+	})
+}
+
+// InitGoQL 初始化 goql
+func InitGoQL(g *goql.GQL, path string, cfg *handler.Config) {
+	handler := g.CreateHandler(cfg)
+	def.GET(path, func(context *gottp.Context) {
+		handler.ServeHTTP(context.Writer, context.Request)
+	})
+	def.POST(path, func(context *gottp.Context) {
+		handler.ServeHTTP(context.Writer, context.Request)
 	})
 }
