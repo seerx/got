@@ -2,6 +2,11 @@ package database
 
 import "fmt"
 
+// DBConnectStringGenerator 数据库连接字符串创建接口
+type DBConnectStringGenerator interface {
+	ConnString() (dialect string, connString string)
+}
+
 // Configure 数据库基础配置信息
 type Configure struct {
 	Host     string `json:"host"`
