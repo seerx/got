@@ -34,5 +34,5 @@ func (c *PostgresConfigure) ConnString() (dialect string, connString string) {
 		c.ConnectTimeout = 10
 	}
 	connString = fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s connect_timeout=%d",
-		c.Host, c.Port, c.User, c.DB, c.Passwd, c.SSLMode, c.ConnectTimeout)
+		c.Host, c.Port, c.User, c.DB, c.Password, c.SSLMode, c.ConnectTimeout)
 }
