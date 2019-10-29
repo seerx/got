@@ -1,6 +1,6 @@
 package got
 
-import "github.com/seerx/got/cache"
+import "github.com/seerx/got/pkg/cache"
 
 //CacheManager 缓存管理
 var CacheManager *cache.Manager

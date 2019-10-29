@@ -41,7 +41,7 @@ func NewCacheManager(provider string, expiredTime int64) *Manager {
 func (m *Manager) GC() {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	m.provider.CacheGC(m.MaxLifeTime)
+	CacheGC(m.MaxLifeTime)
 
 	time.AfterFunc(m.gcDuration, func() {
 		m.GC()
@@ -53,7 +53,7 @@ func (m *Manager) GetEntity(name string) Entity {
 	m.lock.RLock()
 	defer m.lock.RUnlock()
 
-	session, e := m.provider.CacheGet(name)
+	session, e := CacheGet(name)
 	if e == nil {
 		return session
 	}
@@ -66,7 +66,7 @@ func (m *Manager) NewEntity(name string) Entity {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
-	entity, _ := m.provider.CacheInit(name)
+	entity, _ := CacheInit(name)
 	return entity
 }
 
@@ -84,6 +84,6 @@ func (m *Manager) GetOrNewEntiry(name string) Entity {
 func (m *Manager) DestroyEntity(name string) bool {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	m.provider.CacheInit(name)
+	CacheInit(name)
 	return true
 }

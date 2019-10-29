@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seerx/got/cache"
+	"github.com/seerx/got/pkg/cache"
 )
 
 //PROVIDER 提供者名称

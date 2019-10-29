@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/seerx/got"
-	"github.com/seerx/got/gottp"
+	"github.com/seerx/got/pkg/gottp"
 )
 
 func main() {

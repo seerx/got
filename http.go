@@ -6,7 +6,7 @@ import (
 
 	"github.com/graphql-go/handler"
 	"github.com/seerx/goql"
-	"github.com/seerx/got/gottp"
+	"github.com/seerx/got/pkg/gottp"
 	"github.com/seerx/gql"
 )
 

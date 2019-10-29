@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/seerx/got/cache"
+	"github.com/seerx/got/pkg/cache"
 )
 
 // Manager 会话对象

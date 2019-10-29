@@ -7,7 +7,7 @@ import (
 	"net/url"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/seerx/got/cache"
+	"github.com/seerx/got/pkg/cache"
 )
 
 //Context http 请求信息定义
