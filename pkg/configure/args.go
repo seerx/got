@@ -1,7 +1,6 @@
 package configure
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -14,7 +13,7 @@ func ParseConfigureFile(argName string) (string, error) {
 	flag.Parse()
 
 	if file == "" {
-		return file, errors.New("请使用 -c 参数指定配置文件路径")
+		return file, fmt.Errorf("请使用 -%s 参数指定配置文件路径", argName)
 	}
 
 	st, err := os.Lstat(file)
