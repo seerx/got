@@ -41,7 +41,7 @@ func NewCacheManager(provider string, expiredTime int64) *Manager {
 func (m *Manager) GC() {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	CacheGC(m.MaxLifeTime)
+	m.provider.CacheGC(m.MaxLifeTime)
 
 	time.AfterFunc(m.gcDuration, func() {
 		m.GC()
@@ -53,7 +53,7 @@ func (m *Manager) GetEntity(name string) Entity {
 	m.lock.RLock()
 	defer m.lock.RUnlock()
 
-	session, e := CacheGet(name)
+	session, e := m.provider.CacheGet(name)
 	if e == nil {
 		return session
 	}
@@ -66,13 +66,13 @@ func (m *Manager) NewEntity(name string) Entity {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
-	entity, _ := CacheInit(name)
+	entity, _ := m.provider.CacheInit(name)
 	return entity
 }
 
 // GetOrNewEntiry 获取缓存实例
 // 如果没有则创建一个
-func (m *Manager) GetOrNewEntiry(name string) Entity {
+func (m *Manager) GetOrNewEntity(name string) Entity {
 	entity := m.GetEntity(name)
 	if entity == nil {
 		entity = m.NewEntity(name)
@@ -84,6 +84,6 @@ func (m *Manager) GetOrNewEntiry(name string) Entity {
 func (m *Manager) DestroyEntity(name string) bool {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	CacheInit(name)
+	m.provider.CacheInit(name)
 	return true
 }
