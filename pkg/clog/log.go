@@ -20,25 +20,25 @@ import (
 var Log = logrus.New()
 
 // InitCLog 初始化日志
-func InitCLog(logPath string, logLevel string) {
-	fmt.Println("日志", logPath)
+func InitCLog(cfg *LogConfigure) {
+	fmt.Println("日志", cfg.Path)
 	//tf = got.NewTimeFormatter()
 	Log.Out = os.Stdout
 	// Log.Formatter = &myFormatter{}
 	// logrus.TextFormatter{}
 	Log.Formatter = &logrus.JSONFormatter{}
 
-	_, err := os.Lstat(logPath)
+	_, err := os.Lstat(cfg.Path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			// 创建路径
-			got.MakeDirecotories(logPath)
+			got.MakeDirecotories(cfg.Path)
 		} else {
 			fmt.Println("err", err)
 		}
 	}
 
-	baseLogFile := path.Join(logPath, "log")
+	baseLogFile := path.Join(cfg.Path, "log")
 
 	writer, err := roratelogs.New(
 		baseLogFile+".%Y%m%d%H%M",
@@ -50,7 +50,7 @@ func InitCLog(logPath string, logLevel string) {
 		fmt.Println("err", err)
 	}
 
-	switch logLevel {
+	switch cfg.Level {
 	case "debug":
 		Log.SetLevel(logrus.DebugLevel)
 		Log.SetOutput(os.Stderr)
