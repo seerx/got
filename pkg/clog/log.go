@@ -21,7 +21,10 @@ var Log = logrus.New()
 
 // InitCLog 初始化日志
 func InitCLog(cfg *LogConfigure) {
-	fmt.Println("日志", cfg.Path)
+	//Log.SetReportCaller()
+	// 是否输出文件名称和行号
+	Log.SetReportCaller(cfg.TagFileAndLineNumber)
+	//fmt.Println("日志", cfg.Path)
 	//tf = got.NewTimeFormatter()
 	Log.Out = os.Stdout
 	// Log.Formatter = &myFormatter{}
