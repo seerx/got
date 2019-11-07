@@ -1,30 +1,11 @@
 package got
 
 import (
-	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
-
-/*GetIP 获取本机 IP 地址
- */
-func GetIP() string {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		return "error"
-	}
-	for _, address := range addrs {
-		// check the address type and if it is not a loopback the display it
-		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				return ipnet.IP.String()
-			}
-		}
-	}
-	panic("Unable to determine local IP address (non loopback). Exiting.")
-}
 
 //GetMyPath 获取可执行程序所在路径
 func GetMyPath() string {
